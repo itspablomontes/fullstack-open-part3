@@ -51,6 +51,13 @@ app.get("/api/persons/:id", (request, response) => {
   response.json(returnedPerson);
 });
 
+app.post("/api/persons", (request, response) => {
+  const newPerson = request.body;
+  newPerson.id = Math.floor(Math.random() * 1000);
+  persons = persons.concat(newPerson);
+  response.json(newPerson);
+});
+
 app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
   const deletedPerson = persons.find((person) => person.id === id);
