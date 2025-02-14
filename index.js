@@ -41,3 +41,12 @@ app.get("/info", (request, response) => {
     } people</p> <p>${new Date()}</p>`
   );
 });
+
+app.get("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  const returnedPerson = persons.find((person) => person.id === id);
+  if (!returnedPerson) {
+    return response.status(404).end();
+  }
+  response.json(returnedPerson);
+});
