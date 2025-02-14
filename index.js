@@ -7,7 +7,7 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-const persons = [
+let persons = [
   {
     id: "1",
     name: "Arto Hellas",
@@ -49,4 +49,14 @@ app.get("/api/persons/:id", (request, response) => {
     return response.status(404).end();
   }
   response.json(returnedPerson);
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  const deletedPerson = persons.find((person) => person.id === id);
+  if (!deletedPerson) {
+    return response.status(404).end();
+  }
+  persons = persons.filter((person) => person !== deletedPerson);
+  response.json(deletedPerson);
 });
