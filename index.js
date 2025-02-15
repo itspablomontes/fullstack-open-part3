@@ -30,6 +30,14 @@ let persons = [
   },
 ];
 
+const isNameExistant = (name) => {
+  const answer = persons.find((person) => person.name === name);
+  if (answer === undefined) {
+    return false;
+  }
+  return true;
+};
+
 app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
@@ -52,10 +60,17 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 app.post("/api/persons", (request, response) => {
+  if (!request.body.name || !request.body.number) {
+    response.status(400).json({ error: "missing one or more fields" });
+  }
   const newPerson = request.body;
-  newPerson.id = Math.floor(Math.random() * 1000);
-  persons = persons.concat(newPerson);
-  response.json(newPerson);
+  if (isNameExistant(newPerson.name)) {
+    response.status(400).json({ error: "name must be unique" });
+  } else {
+    newPerson.id = Math.floor(Math.random() * 1000);
+    persons = persons.concat(newPerson);
+    response.json(newPerson);
+  }
 });
 
 app.delete("/api/persons/:id", (request, response) => {
