@@ -75,7 +75,7 @@ app.post("/api/persons", (request, response) => {
   if (isNameExistant(newPerson.name)) {
     response.status(400).json({ error: "name must be unique" });
   } else {
-    newPerson.id = Math.floor(Math.random() * 1000);
+    newPerson.id = Math.floor(Math.random() * 1000).toString();
     persons = persons.concat(newPerson);
     response.json(newPerson);
   }

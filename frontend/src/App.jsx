@@ -134,8 +134,8 @@ const App = () => {
     if (deletedPerson) {
       personServices.deletePerson(id).then(() => {
         const newList = persons.filter((person) => person.id !== id);
-        setFilteredPersons(newList);
-        setPersons(persons.splice(newList));
+        setFilteredPersons([...newList]);
+        setPersons([...newList]);
       });
     }
   };
