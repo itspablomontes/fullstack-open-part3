@@ -54,12 +54,13 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   const id = request.params.id;
-  const deletedPerson = persons.find((person) => person.id === id);
-  if (!deletedPerson) {
-    return response.status(404).end();
-  }
-  persons = persons.filter((person) => person !== deletedPerson);
-  response.json(deletedPerson);
+  Person.findByIdAndDelete(id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
